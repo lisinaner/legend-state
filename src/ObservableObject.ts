@@ -89,6 +89,9 @@ export const observableFns = new Map<string, (node: NodeInfo, ...args: any[]) =>
     ['assign', assign],
     ['delete', deleteFn],
     ['toggle', toggle],
+    ['diy',()=>{
+        console.log(123)
+    }]
 ]);
 
 if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
