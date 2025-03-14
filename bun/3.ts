@@ -1,4 +1,6 @@
 import * as state from ".."
-let str=state.observable({})
+let str=state.observable({a:1})
 
-str.diy()
+str.a.set(3)
+console.log(str.diy())
+console.log(str.get())

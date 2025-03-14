@@ -1,5 +1,6 @@
 import { beginBatch, createPreviousHandler, endBatch, isArraySubset, notify } from './batching';
 import { createObservable } from './createObservable';
+import {produce} from "immer"
 import {
     equals,
     extractFunction,
@@ -89,9 +90,7 @@ export const observableFns = new Map<string, (node: NodeInfo, ...args: any[]) =>
     ['assign', assign],
     ['delete', deleteFn],
     ['toggle', toggle],
-    ['diy',()=>{
-        console.log(123)
-    }]
+    ['diy',diy]
 ]);
 
 if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
@@ -965,6 +964,17 @@ function extractFunctionOrComputed(node: NodeInfo, k: string, v: any) {
     }
 }
 
+export function diy(node: NodeInfo, options?: TrackingType | GetOptions) {
+    const track = options ? (isObject(options) ? (options.shallow as TrackingType) : options) : undefined;
+    // Track by default
+    updateTracking(node, track);
+
+    return produce(peek(node),(draft)=>{
+        draft.b=1
+
+        return draft
+    })
+}
 export function get(node: NodeInfo, options?: TrackingType | GetOptions) {
     const track = options ? (isObject(options) ? (options.shallow as TrackingType) : options) : undefined;
     // Track by default
