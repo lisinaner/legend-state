@@ -1,0 +1,6 @@
+{
+  "bun": {
+    "usageMode": "neverUse"
+  },
+  "showValueOnSelection": true
+}
