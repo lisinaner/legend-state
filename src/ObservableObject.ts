@@ -970,9 +970,9 @@ export function diy(node: NodeInfo, options?: TrackingType | GetOptions) {
     updateTracking(node, track);
 
     return produce(peek(node),(draft)=>{
-        draft.b=1
+      
 
-        return draft
+        return {...draft}
     })
 }
 export function get(node: NodeInfo, options?: TrackingType | GetOptions) {
