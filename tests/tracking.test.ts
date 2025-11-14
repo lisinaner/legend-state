@@ -10,32 +10,32 @@ afterEach(() => {
 });
 
 describe('Tracking', () => {
-    test('get() observes', () => {
+    test('@ get() 跟踪', () => {
         const obs = observable({ test: { test2: { test3: 'hi' } } });
         obs.test.test2.test3.get();
 
         expect(tracking.current!.nodes!.size).toEqual(1);
     });
-    test('peek() does not observe', () => {
+    test('@ peek() 不跟踪', () => {
         const obs = observable({ test: { test2: { test3: 'hi' } } });
         obs.test.test2.test3.peek();
 
         expect(tracking.current?.nodes).toEqual(undefined);
     });
-    test('set() does not observe', () => {
+    test('@ set() 不跟踪', () => {
         const obs = observable({ test: { test2: { test3: 'hi' } } });
 
         obs.test.test2.test3.set('hello');
 
         expect(tracking.current?.nodes).toEqual(undefined);
     });
-    test('primitive access observes', () => {
+    test('@ 原始访问观察', () => {
         const obs = observable({ test: 'hi' });
         obs.test.get();
 
         expect(tracking.current!.nodes!.size).toEqual(1);
     });
-    test('object access does not observe', () => {
+    test('@ 对象访问不观察', () => {
         const obs = observable({ test: { text: 'hi' } });
         obs.test;
 
@@ -91,7 +91,7 @@ describe('Tracking', () => {
         expect(nodes[0].node.key).toEqual(undefined);
         expect(nodes[0].track).toEqual(true);
     });
-    test('Accessing undefined observes', () => {
+    test('@M 未定义也可以跟踪', () => {
         const obs = observable({ test: {} as Record<string, { text: 'hi' }> });
 
         obs.test['a'].get();
@@ -99,7 +99,7 @@ describe('Tracking', () => {
         expect(tracking.current!.nodes!.size).toEqual(1);
 
         const nodes = [...tracking.current!.nodes!.values()];
-
+        expect(nodes.length).toEqual(1);
         expect(nodes[0].node.key).toEqual('a');
     });
     test('get() an event observes', () => {
@@ -125,7 +125,7 @@ describe('Tracking', () => {
 
         expect(nodes[0].node.key).toEqual('arr');
     });
-    test('Array length observes array shallow', () => {
+    test('@ Array length observes array shallow 浅跟踪', () => {
         const obs = observable({
             arr: [{ id: 1, text: 'hi1' }],
         });
@@ -139,4 +139,12 @@ describe('Tracking', () => {
         expect(nodes[0].node.key).toEqual('arr');
         expect(nodes[0].track).toEqual(true);
     });
+    test('@C 深跟踪',()=>{
+        const obs = observable({ test: 'hi' });
+        obs.test.get();
+
+        expect(tracking.current!.nodes!.size).toEqual(1);
+        const nodes = [...tracking.current!.nodes!.values()];
+        expect(nodes[0].track).toEqual(undefined);
+    })
 });

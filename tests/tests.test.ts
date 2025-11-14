@@ -27,9 +27,14 @@ beforeEach(() => {
 afterAll(() => {
     spiedConsole.mockRestore();
 });
-
-describe('Set', () => {
-    test('Set', () => {
+test('apple Set', () => {
+    const obs = observable({ test: { text: 't' } });
+    obs.test.set({ text: 't2' });
+    expect(obs.test.get()).toEqual({ text: 't2' });
+    expect(obs.get()).toEqual({ test: { text: 't2' } });
+});
+describe('@ Set', () => {
+    test('@ Set', () => {
         const obs = observable({ test: { text: 't' } });
         obs.test.set({ text: 't2' });
         expect(obs.test.get()).toEqual({ text: 't2' });
@@ -67,17 +72,17 @@ describe('Set', () => {
         obs.set({ test: { text: 't2' } });
         expect(obs.get()).toEqual({ test: { text: 't2' } });
     });
-    test('Set child of empty object with function', () => {
+    test('Set child of empty object with function-使用函数定义空对象', () => {
         const obs = observable<Record<string, any>>();
         obs.a.b.set((v: any) => !v || v === 'partial');
         expect(obs.get()).toEqual({ a: { b: true } });
     });
-    test('Set empty object at root', () => {
+    test('Set empty object at root-对象清空', () => {
         const obs = observable({ test: { text: 't' } } as Record<string, any>);
         obs.set({});
         expect(obs.get()).toEqual({});
     });
-    test('Set at root deletes other properties', () => {
+    test('Set at root deletes other properties-根设置删除其他', () => {
         const obs = observable({ test: { text: 't' }, test2: 'hello' } as { test: { text: string }; test2?: string });
         obs.set({ test: { text: 't2' } });
         expect(obs.get()).toEqual({ test: { text: 't2' } });
@@ -157,7 +162,7 @@ describe('Set', () => {
 
         expect(seen).toEqual(1);
     });
-    test("Set with child that's an observable multiple times", () => {
+    test("Set with child that's an observable multiple times-多次设置可观察子对象", () => {
         const obsOther = observable({ a: { b: 'hi' } });
         const obsOther2 = observable({ a: { b: 'hello' } });
         const obs = observable({ test: { t: { text2: 't' } } } as Record<string, any>);
@@ -3397,7 +3402,7 @@ describe('Functions', () => {
     });
 });
 
-describe('Extend observableFunctions', () => {
+describe('Extend observableFunctions-扩展函数', () => {
     test('Extend observableFunctions works', () => {
         configureLegendState({
             observableFunctions: {
