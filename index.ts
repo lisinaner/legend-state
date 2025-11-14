@@ -55,12 +55,22 @@ export { findIDKey, getNode, getNodeValue, optimized, symbolDelete } from './src
 export { ObservablePrimitiveClass } from './src/ObservablePrimitive';
 
 // Internal:
-import { get, getProxy, observableFns, observableProperties, peek, set } from './src/ObservableObject';
+import {
+    deactivateNode,
+    get,
+    getProxy,
+    observableFns,
+    observableProperties,
+    peek,
+    reactivateNode,
+    set,
+} from './src/ObservableObject';
 import { createPreviousHandler } from './src/batching';
 import {
     clone,
     ensureNodeValue,
     findIDKey,
+    getChildNode,
     getKeys,
     getNode,
     getNodeValue,
@@ -81,10 +91,12 @@ import { registerMiddleware } from './src/middleware';
 export const internal = {
     createPreviousHandler,
     clone,
+    deactivateNode,
     deepMerge,
     ensureNodeValue,
     findIDKey,
     get,
+    getChildNode,
     getKeys,
     getNode,
     getNodeValue,
@@ -98,6 +110,7 @@ export const internal = {
     observableFns,
     optimized,
     peek,
+    reactivateNode,
     registerMiddleware,
     safeParse,
     safeStringify,
