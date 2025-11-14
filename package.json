@@ -15,9 +15,9 @@
         "npm": ">=8.11.0"
     },
     "scripts": {
-        "build1":"bun build ./bun/1.ts --outdir ./build ",
+        "build1": "bun build ./bun/1.ts --outdir ./build ",
         "build": "npm run lint:check && npm run format:check && bun buntestsilent && bunx tsup && bun run posttsup.ts",
-        "test": "jest",
+        "test": "jest  ./tests/react.test.tsx",
         "preversion": "npm run buntestsilent",
         "postversion": "npm run build && git push --follow-tags",
         "jestclear": "jest --clearCache",
@@ -111,6 +111,7 @@
         "typescript": "^5.7.2"
     },
     "dependencies": {
+        "immer": "^10.2.0",
         "use-sync-external-store": "^1.2.2"
     },
     "peerDependencies": {
